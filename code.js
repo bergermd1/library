@@ -1,14 +1,16 @@
 const myLibrary = [];
 
-function Book(author, title, numPages, read) {
-    this.author = author;
-    this.title = title;
-    this.numPages = numPages;
-    this.read = read;
-}
+class Book {
+    constructor(author, title, numPages, read) {
+        this.author = author;
+        this.title = title;
+        this.numPages = numPages;
+        this.read = read;
+    }
 
-Book.prototype.toggleRead = function() {
-    this.read = !(this.read);
+    toggleRead() {
+        this.read = !(this.read);
+    }
 }
 
 function addBookToLibrary(author, title, numPages, read) {
@@ -42,6 +44,39 @@ window.onload = () => {
             redisplayBooks();
         }
     })
+
+    const authorInput = document.querySelector('#author');
+    authorInput.addEventListener('input', () => {
+        // console.log('yeah');
+        if (!authorInput.validity.valid) {
+            document.querySelector('.author-error').textContent = "Author name required";
+        } else {
+            document.querySelector('.author-error').textContent = "";
+        }
+    });
+
+    const titleInput = document.querySelector('#title');
+    titleInput.addEventListener('input', () => {
+        // console.log('yeah');
+        if (!titleInput.validity.valid) {
+            document.querySelector('.title-error').textContent = "Title required";
+        } else {
+            document.querySelector('.title-error').textContent = "";
+        }
+    });
+
+    const numPagesInput = document.querySelector('#numPages');
+    numPagesInput.addEventListener('input', () => {
+        // console.log('yeah');
+        console.log(isNaN(Number(numPagesInput.value)));
+        if (!numPagesInput.validity.valid || isNaN(Number(numPagesInput.value)) || Number(numPagesInput.value) <= 0) {
+            document.querySelector('.numPages-error').textContent = "Number of pages required";
+        } else {
+            document.querySelector('.numPages-error').textContent = "";
+        }
+    });
+
+
 }
 
 function redisplayBooks() {
@@ -77,3 +112,4 @@ const sanitize = (str) => {
     div.textContent = str;
     return div.innerHTML;
 }
+
